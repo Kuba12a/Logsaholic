@@ -1,5 +1,5 @@
 import os
-
+import time
 
 extensions = {'.pcap', '.txt', '.xml', '.json', '.evtx'}
 
@@ -17,3 +17,10 @@ def get_filenames(path):  # To walk through all folders, subfolders and files
                 files.append(os.path.abspath(folderName + "\\" + subfolder + "\\" + filename))
                 print(os.path.abspath(folderName + "\\" + subfolder + "\\" + filename))
     return files
+
+
+def write_log(log_value):
+    filename = os.path.abspath('.') + "\logsaholics" + str(time.ctime(time.time()))
+    file = open(filename, 'w')
+    file.write(log_value)
+    file.close()
