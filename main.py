@@ -16,7 +16,7 @@ def load_module(name):
 @click.option('--folder-name', default=None, help='Folder name to scan')
 @click.option('--file-name', default=None, help='Folder name to scan')
 #@click.option('--load-rules', default=None, help='Folder name to scan')
-def event_detection(folder_name, file_name, load_rules):
+def event_detection(folder_name, file_name):
     
     try:
         rules = input("Enter rules names(white space seperated")
@@ -56,13 +56,13 @@ def display_captures(folder_name, file_name, filter):
 @click.option('--regular-expression', default=None, help='Valid regular-expression')
 def grep(folder_name, file_name, regular_expression):
     
-    # jakaś walidacja czy to dobry filtr BPF
+    # jakaś walidacja czy to dobre regullar expression
     try:
         if(folder_name != None):
             print("Displaying text files from "+ folder_name + " with grep and regular expression")
-            #display_with_grep(folder_name, filter)
+            #display_with_grep(folder_name, regular_expression)
         if (file_name != None):
-            #display_with_grep(file_name, filter)
+            #display_with_grep(file_name, regular_expression)
             print("Displaying text file "+ file_name + " with grep and regular expression")
     except:
         print("Enter proper paths and regular expression")
