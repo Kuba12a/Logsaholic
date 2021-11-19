@@ -1,6 +1,4 @@
-'''import sys
-sys.path.insert(0,'..\FileManagers')
-import FileManagers.FileManager as file_manager
+'''from .. import FileManagers as file_manager
 import os
 
 

@@ -1,4 +1,4 @@
-def test_rule_low_risk(**kwargs):
+def test_rule_low_risk(file):
     # ciało funkcji - właściwa reguła operująca na danych z args
     # procesowanie pcap
     # for pcap in kwargs[pcap]:
@@ -14,7 +14,7 @@ def test_rule_low_risk(**kwargs):
 
     condition = True
 
-    if condition = True:
+    if condition == True:
         action_alert = "local" # akcja: "local", "remote"
         action_block = False # or False
         description = "Opis eventu, low risk" # format w OFF.8.5
@@ -26,7 +26,7 @@ def test_rule_low_risk(**kwargs):
 
 
 
-def test_rule_medium_risk(**kwargs):
+def test_rule_medium_risk(file):
     # ciało funkcji - właściwa reguła operująca na danych z args
     # procesowanie pcap
     # for pcap in kwargs[pcap]:
@@ -42,7 +42,7 @@ def test_rule_medium_risk(**kwargs):
 
     condition = True
 
-    if condition=True:
+    if condition==True:
         action_alert = "remote" # akcja: "local", "remote"
         action_block = False # or False
         description = "Opis eventu, medium risk" # format w OFF.8.5
@@ -53,7 +53,7 @@ def test_rule_medium_risk(**kwargs):
     return action_alert, action_block, description\
 
     
-def test_rule_high_risk(**kwargs):
+def test_rule_high_risk(file):
     # ciało funkcji - właściwa reguła operująca na danych z args
     # procesowanie pcap
     # for pcap in kwargs[pcap]:
@@ -69,7 +69,7 @@ def test_rule_high_risk(**kwargs):
 
     condition = True
 
-    if condition=True:
+    if condition==True:
         action_alert = "remote" # akcja: "local", "remote"
         action_block = True # or False
         description = "opis Eventu, high risk" # format w OFF.8.5
@@ -82,7 +82,7 @@ def test_rule_high_risk(**kwargs):
 
 
 
-def test_rule_no_risk(**kwargs):
+def test_rule_no_risk(file):
     # ciało funkcji - właściwa reguła operująca na danych z args
     # procesowanie pcap
     # for pcap in kwargs[pcap]:
@@ -98,7 +98,7 @@ def test_rule_no_risk(**kwargs):
 
     condition = False
 
-    if condition=True:
+    if condition==True:
         action_alert = "local" # akcja: "local", "remote"
         action_block = False # or False
         description = "No dangers found" # format w OFF.8.5

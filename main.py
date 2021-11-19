@@ -1,34 +1,41 @@
 import click
 import FileManagers.PCAPManager as pcap_manager
 import FileManagers.FileManager as file_manager
+import FileManagers.EventDetectionManager as event_manager
+
 
 @click.group()
 def main():
     pass
-'''
-def load_module(name):
-    """Simple program that greets NAME for a total of COUNT times."""
-    click.echo(f"Module {name} loaded")
-'''
+
 
 
 @main.command()
 @click.option('--folder-name', default=None, help='Folder name to scan')
-@click.option('--file-name', default=None, help='Folder name to scan')
-#@click.option('--load-rules', default=None, help='Folder name to scan')
+@click.option('--file-name', default=None, help='File name to scan')
 def event_detection(folder_name, file_name):
     
     try:
-        rules = input("Enter rules names(white space seperated")
+        rules = input("Enter rules names (white space seperated)\n")
         rules = rules.split(" ")  #String table with rules names
+        files_to_scan = []
+
         if(folder_name != None):
-            print("Folder scanned")
-            #scan_folder(folder_name, rules)
+            files_to_scan = file_manager.get_filenames(folder_name)
+            event_manager.scan_files(files_to_scan, rules)
+            print("\nFiles scanned")
+
         if (file_name != None):
-            #scan_file(file_name, rules)
-            print("File scanned")
-    except:
-        print("Enter proper paths")
+            files_to_scan.append(file_name)
+            event_manager.scan_files(files_to_scan, rules)
+            print("\nFile scanned")
+
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
+
+
 
 
 @main.command()
@@ -45,8 +52,10 @@ def display_captures(folder_name, file_name, filter):
         if (file_name != None):
             #get_captures(file_name, filter)
             print("PCAP from file "+ file_name + " displayed using " + filter+ " filter")
-    except:
-        print("Enter proper paths and filter")
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
 
 
 
@@ -64,15 +73,16 @@ def grep(folder_name, file_name, regular_expression):
         if (file_name != None):
             #display_with_grep(file_name, regular_expression)
             print("Displaying text file "+ file_name + " with grep and regular expression")
-    except:
-        print("Enter proper paths and regular expression")
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
 
 
 
 
 
 if __name__ == '__main__':
-    global data
     main()
     
     
