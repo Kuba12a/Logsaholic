@@ -2,18 +2,12 @@ from scapy.all import *
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 
-def process_pcap(file_name):
+def process_pcap(file_name, filt):
     print('Opening {}...'.format(file_name))
-
-    count = 0
-    for (pkt_data, pkt_metadata,) in RawPcapReader(file_name):
-        count += 1
-        ether_pkt = Ether(pkt_data)
-
-        if ether_pkt.type != 0x0800:
-            continue
-
-    print('{} contains {} packets'.format(file_name, count))
+    filtered = sniff(offline=file_name,pnr=None,filter=str(filt))
+    print('Showing {} filtered packets'.format(len(filtered)))
+    return filtered
+    
 
 
 def check_connection_between_hosts(file_name, client, server):

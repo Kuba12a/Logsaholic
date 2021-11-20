@@ -1,34 +1,33 @@
 import click
+import os
+import scapy
 import FileManagers.PCAPManager as pcap_manager
 import FileManagers.FileManager as file_manager
 import FileManagers.EventDetectionManager as event_manager
 
-
+#main groupf to serve multiple commands 
 @click.group()
 def main():
     pass
 
 
-
+#command section
 @main.command()
-@click.option('--folder-name', default=None, help='Folder name to scan')
-@click.option('--file-name', default=None, help='File name to scan')
-def event_detection(folder_name, file_name):
-    
+@click.option('--path', default=[], help='Path to folders or files', multiple=True)
+@click.option('--rules', prompt="enter rules >", help='Possible rules are:')
+def event_detection(path, rules):
+    """ Event generating detection programm """
     try:
-        rules = input("Enter rules names (white space seperated)\n")
         rules = rules.split(" ")  #String table with rules names
         files_to_scan = []
-
-        if(folder_name != None):
-            files_to_scan = file_manager.get_filenames(folder_name)
-            event_manager.scan_files(files_to_scan, rules)
-            print("\nFiles scanned")
-
-        if (file_name != None):
-            files_to_scan.append(file_name)
-            event_manager.scan_files(files_to_scan, rules)
-            print("\nFile scanned")
+        for p in path:
+            if os.path.isdir(p):
+                for file in file_manager.get_filenames(p): #TODO naprawic 
+                    files_to_scan.append(file)
+            elif os.path.isfile(p):
+                files_to_scan.append(p)
+        event_manager.scan_files(files_to_scan, rules)
+        click.echo("\nFiles scanned")
 
     except Exception as ex:
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
@@ -39,19 +38,17 @@ def event_detection(folder_name, file_name):
 
 
 @main.command()
-@click.option('--folder-name', default=None, help='Folder name to scan')
-@click.option('--file-name', default=None, help='Folder name to scan')
-@click.option('--filter', default=None, help='Valid BPF filter')
-def display_captures(folder_name, file_name, filter):
+@click.option('--path', help='Path to file', multiple=False, required=True)
+@click.option('--filter', default='tcp', help='Valid BPF filter')
+def display_captures(path, filter):
+    """ Simple programm to display PCAPs """
     
     # jakaś walidacja czy to dobry filtr BPF
     try:
-        if(folder_name != None):
-            print("PCAPs from folder "+ folder_name + " displayed using " + filter+ " filter")
-            #get_captures(folder_name, filter)
-        if (file_name != None):
-            #get_captures(file_name, filter)
-            print("PCAP from file "+ file_name + " displayed using " + filter+ " filter")
+        if os.path.isfile(path):
+            click.echo("PCAPs from folder "+ path + " displayed using " + filter+ " filter")
+            result = pcap_manager.process_pcap(path, filter)
+            result.summary()
     except Exception as ex:
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         message = template.format(type(ex).__name__, ex.args)
@@ -60,19 +57,19 @@ def display_captures(folder_name, file_name, filter):
 
 
 @main.command()
-@click.option('--folder-name', default=None, help='Folder name to scan')
-@click.option('--file-name', default=None, help='Folder name to scan')
-@click.option('--regular-expression', default=None, help='Valid regular-expression')
-def grep(folder_name, file_name, regular_expression):
-    
+@click.option('--path', default=[], help='Path to folders or files', multiple=True)
+@click.option('--regex', default=None, help='Valid regular-expression')
+def text_search(path, regex):
+    """ Simple programm to search for text """
     # jakaś walidacja czy to dobre regullar expression
     try:
-        if(folder_name != None):
-            print("Displaying text files from "+ folder_name + " with grep and regular expression")
-            #display_with_grep(folder_name, regular_expression)
-        if (file_name != None):
-            #display_with_grep(file_name, regular_expression)
-            print("Displaying text file "+ file_name + " with grep and regular expression")
+        files_to_scan = []
+        for p in path:
+            if os.path.isdir(p):
+                for file in file_manager.get_filenames(p): #TODO naprawic 
+                    files_to_scan.append(file)
+            elif os.path.isfile(p):
+                files_to_scan.append(p)
     except Exception as ex:
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         message = template.format(type(ex).__name__, ex.args)
@@ -81,7 +78,7 @@ def grep(folder_name, file_name, regular_expression):
 
 
 
-
+#start of the programm
 if __name__ == '__main__':
     main()
     
