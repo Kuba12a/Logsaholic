@@ -14,18 +14,18 @@ def main():
 #command section
 @main.command()
 @click.option('--path', default=[], help='Path to folders or files', multiple=True)
-@click.option('--rules', prompt="enter rules >", help='Possible rules are:')
-def event_detection(path, rules):
+@click.option('--rules_string', prompt="enter rules >", help='Possible rules are:')
+def event_detection(path, rules_string):
     """ Event generating detection programm """
     try:
-        rules = rules.split(" ")  #String table with rules names
+        rules = rules_string.split(" ")  #String table with rules names
         files_to_scan = []
-        for p in path:
-            if os.path.isdir(p):
-                for file in file_manager.get_filenames(p): #TODO naprawic 
+        for file in path:
+            if os.path.isdir(file):
+                for file in file_manager.get_filenames(file): #TODO naprawic
                     files_to_scan.append(file)
-            elif os.path.isfile(p):
-                files_to_scan.append(p)
+            elif os.path.isfile(file):
+                files_to_scan.append(file)
         event_manager.scan_files(files_to_scan, rules)
         click.echo("\nFiles scanned")
 
@@ -68,12 +68,12 @@ def text_search(path, regex):
     if txt_manager.validate_regex(regex):
         try:
             files_to_scan = []
-            for p in path:
-                if os.path.isdir(p):
-                    for file in file_manager.get_filenames(p): #TODO naprawic 
+            for file in path:
+                if os.path.isdir(file):
+                    for file in file_manager.get_filenames(file): #TODO naprawic
                         files_to_scan.append(file)
-                elif os.path.isfile(p):
-                    files_to_scan.append(p)
+                elif os.path.isfile(file):
+                    files_to_scan.append(file)
             txt_manager.process_files(files_to_scan,regex)
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
