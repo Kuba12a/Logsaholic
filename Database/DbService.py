@@ -2,7 +2,7 @@ import sqlite3
 from pydantic import BaseModel
 import datetime
 
-conn = sqlite3.connect('events.db')
+connection = sqlite3.connect('events.db')
 
 
 class Event(BaseModel):
@@ -13,16 +13,16 @@ class Event(BaseModel):
 
 
 
-c = conn.cursor()
+connection_cursor = connection.cursor()
 
 
 def insert_event(event: Event):
-    with conn:
-        c.execute(
+    with connection:
+        connection_cursor.execute(
             f"INSERT INTO events VALUES ('{event.event_id}', '{event.source}', '{event.date.strftime('%m/%d/%Y, %H:%M:%S')}', '{event.message}')")
 
 def select_events():
-    with conn:
-        c.execute(
+    with connection:
+        connection_cursor.execute(
             "SELECT * from events")
-    return c.fetchall()
+    return connection_cursor.fetchall()
