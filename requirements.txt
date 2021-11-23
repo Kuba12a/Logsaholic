@@ -6,7 +6,8 @@ distlib==0.3.3
 filelock==3.4.0
 pipenv==2021.11.15
 platformdirs==2.4.0
-scapy==2.4.5rc1.dev145
+scapy~=2.4.5
 six==1.16.0
 virtualenv==20.10.0
 virtualenv-clone==0.5.7
+pydantic~=1.8.2
