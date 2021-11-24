@@ -71,7 +71,7 @@ def text_search(paths, regex):
             files_to_scan = []
             for path in paths:
                 if os.path.isdir(path):
-                    for file in file_manager.get_filenames(p,extensions):
+                    for file in file_manager.get_filenames(path,extensions):
                         files_to_scan.append(file)
                 elif os.path.isfile(path):
                     files_to_scan.append(path)
@@ -81,7 +81,6 @@ def text_search(paths, regex):
             message = template.format(type(ex).__name__, ex.args)
             print(message)
     else: click.echo("regex incorrect")
-
 
 
 #start of the programm
