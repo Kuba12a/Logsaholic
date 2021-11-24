@@ -6,7 +6,7 @@
 ### 1. Events detection using rules from detection-rules
 ```
 python3 main.py event-detection 
---path [path to file/folder] *can be multiple   
+--paths [path to file/folder] *can be multiple   
 --rule *prompt pops up, enter rules >
 ```
 
@@ -20,11 +20,9 @@ python3 main.py display-captures
 ### 3. Display from text files with grep and regular expressions
 ```
 python3 main.py text search
---path [path to file/folder] *can be multiple 
+--paths [path to file/folder] *can be multiple 
 --regex [regular expression] 
 
-python main.py grep --file-name [file name] --regular-expression [regular expression] 
-python main.py grep --folder-name [folder name] --regular-expression [regular expression] 
 ```
 
 ### 4. Run FastApi
