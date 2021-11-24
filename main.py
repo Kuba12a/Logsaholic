@@ -13,19 +13,20 @@ def main():
 
 #command section
 @main.command()
-@click.option('--path', default=[], help='Path to folders or files', multiple=True)
+@click.option('--paths', default=[], help='Path to folders or files', multiple=True)
 @click.option('--rules_string', prompt="enter rules >", help='Possible rules are:')
-def event_detection(path, rules_string):
+def event_detection(paths, rules_string):
     """ Event generating detection programm """
+    extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}    
     try:
         rules = rules_string.split(" ")  #String table with rules names
         files_to_scan = []
-        for file in path:
-            if os.path.isdir(file):
-                for file in file_manager.get_filenames(file): #TODO naprawic
+        for path in paths:
+            if os.path.isdir(path):
+                for file in file_manager.get_filenames(path,extensions):
                     files_to_scan.append(file)
-            elif os.path.isfile(file):
-                files_to_scan.append(file)
+            elif os.path.isfile(path):
+                files_to_scan.append(path)
         event_manager.scan_files(files_to_scan, rules)
         click.echo("\nFiles scanned")
 
@@ -60,20 +61,20 @@ def display_captures(path, filter):
 
 
 @main.command()
-@click.option('--path', default=[], help='Path to folders or files', multiple=True)
+@click.option('--paths', default=[], help='Path to folders or files', multiple=True)
 @click.option('--regex', help='Valid regular-expression in single quotes', required=True)
-def text_search(path, regex):
+def text_search(paths, regex):
     """ Simple programm to search for text """
-    # jakaś walidacja czy to dobre regullar expression
+    extensions = {'txt', 'xml', 'json'}    
     if txt_manager.validate_regex(regex):
         try:
             files_to_scan = []
-            for file in path:
-                if os.path.isdir(file):
-                    for file in file_manager.get_filenames(file): #TODO naprawic
+            for path in paths:
+                if os.path.isdir(path):
+                    for file in file_manager.get_filenames(p,extensions):
                         files_to_scan.append(file)
-                elif os.path.isfile(file):
-                    files_to_scan.append(file)
+                elif os.path.isfile(path):
+                    files_to_scan.append(path)
             txt_manager.process_files(files_to_scan,regex)
         except Exception as ex:
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
