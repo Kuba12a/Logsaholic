@@ -42,3 +42,7 @@ To update libraries from requirements.txt type
 ```
 pip install -r requirements.txt
 ```
+To update requirements.txt 
+```
+pip freeze > requirements.txt
+```
