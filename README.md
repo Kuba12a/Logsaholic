@@ -35,3 +35,10 @@ Run fastApi using hypercorn
 hypercorn Api:app --worker-class trio
 
 ```
+
+
+### 5. Updating from requirements
+To update libraries from requirements.txt type
+```
+pip install -r requirements.txt
+```
