@@ -18,4 +18,4 @@ app = FastAPI()
 def login(alert: Alert):
     print(f"Alert!\nSource: {alert.source}\nAlertId: {alert.alert_id}"
           f"\nDate: {alert.date.strftime('%m/%d/%Y, %H:%M:%S')}\nMessage: {alert.message}")
-    return {"msg": "alert send successfully to the firewall"}
+    return {"msg": "alert send successfully"}
