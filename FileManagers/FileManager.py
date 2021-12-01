@@ -1,22 +1,18 @@
 import os
 import time
 
-extensions = {'.pcap', '.txt', '.xml', '.json', '.evtx'}
 
-
-def get_filenames(path):  
-    files = []
+def get_filenames(path, extensions):  
+    file_paths = []
     
-    for folderName, subFolders, filenames in os.walk(path):
-        #print('The current folder is' + folderName)
-        for subfolder in subFolders:
-            #print('Subfolder of' + folderName + ':' + subfolder)
-            
-            for filename in filenames:
-                if (os.path.splitext(filename)[1] in extensions):
-                    files.append(os.path.abspath(folderName + "\\" + subfolder + "\\" + filename))
-                    #print(os.path.abspath(folderName + "\\" + subfolder + "\\" + filename))
-    return files
+    for root, dirs, files in os.walk(path, topdown=False):
+        print('Going trough folder {} ...', root)
+
+        for file in files:
+            if(file.split('.')[1] in extensions):
+                file_paths.append(os.path.join(root,file))
+
+    return file_paths
 
 
 def write_log(log_message):
