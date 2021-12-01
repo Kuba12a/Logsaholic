@@ -130,3 +130,5 @@ dmypy.json
 
 #logs from our programm
 logs/
+
+WinDump.exe
