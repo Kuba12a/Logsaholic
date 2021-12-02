@@ -22,7 +22,7 @@ def insert_alert(alert: AlertToInsert):
             connection_cursor2.execute(
                 f"INSERT INTO events (source, date, message) VALUES ('{alert.source}', '{alert.date.strftime('%m/%d/%Y, %H:%M:%S')}', '{alert.message}')")
         except:
-            print("Nie dodano do bazy bo baza danych nie istnieje na tym urządzeniu")
+            print("Nie dodano do bazy bo prawdopodobnie baza danych nie istnieje na tym urządzeniu")
 
 def select_alerts():
     with connection:

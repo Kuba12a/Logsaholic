@@ -35,7 +35,7 @@ def scan_files(files, rules, firewall_address, host_address):
                                        alert_model.Alert(alert_id=event_number, source=f,
                                                          date=str(datetime.datetime.now()), message=result[2]))
                 except: 
-                    print("Nie wyslano do hosta odbierającego, bo nie jest on uruchomiony")
+                    print("Nie wyslano do hosta odbierającego, bo prawdopodobnie nie jest on uruchomiony")
 
 
             if (result[1]):  # Jesli action_block = True
@@ -44,7 +44,7 @@ def scan_files(files, rules, firewall_address, host_address):
                                         alert_model.Alert(alert_id=event_number, source=f,
                                                         date=str(datetime.datetime.now()), message=result[2]))
                 except:
-                    print("Nie wyslano polecen do firewalla bo serwer odbierajacy nie jest uruchomiony")
+                    print("Nie wyslano polecen do firewalla bo prawdopodobnie serwer odbierajacy nie jest uruchomiony")
                 log_message.append("Sending firewall rules to remote host")
 
 
