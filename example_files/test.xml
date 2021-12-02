@@ -2,5 +2,6 @@
     <models>
         <model name="model1">model1abc</model>
         <model name="model2">powershell empire</model>
+        <url name="url">https://malware.com</url>
     </models>
 </data>
