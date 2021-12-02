@@ -15,8 +15,8 @@ def test_rule_low_risk(file):
     condition = True
 
     if condition == True:
-        action_alert = "local" # akcja: "local", "remote"
-        action_block = False # or False
+        action_alert = "remote" # akcja: "local", "remote"
+        action_block = True # or False
         description = "Opis eventu, low risk" # format w OFF.8.5
     else:
         action_alert = None

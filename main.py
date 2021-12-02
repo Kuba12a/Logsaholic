@@ -14,10 +14,37 @@ def main():
 #command section
 @main.command()
 @click.option('--paths', default=[], help='Path to folders or files', multiple=True)
+@click.option('--host', default="http://None", help='Host connection string to the host', multiple=False)
+@click.option('--firewall', default="http://None", help='Firewall connection string to the host', multiple=False)
 @click.option('--rules_string', prompt="enter rules >", help='Possible rules are:')
-def event_detection(paths, rules_string):
+def event_detection(paths, host, firewall, rules_string):
     """ Event generating detection programm """
     extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}    
+    try:
+        rules = rules_string.split(" ")  #String table with rules names
+        files_to_scan = []
+        for path in paths:
+            if os.path.isdir(path):
+                for file in file_manager.get_filenames(path,extensions):
+                    files_to_scan.append(file)
+            elif os.path.isfile(path):
+                files_to_scan.append(path)
+        event_manager.scan_files(files_to_scan, rules, firewall, host)
+        click.echo("\nFiles scanned")
+
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
+
+
+
+@main.command()
+@click.option('--paths', default=[], help='Path to folders or files', multiple=True)
+@click.option('--rules_string', prompt="enter rules >", help='Possible rules are:')
+def set_host_connection_string(paths, rules_string):
+    """ Event generating detection programm """
+    extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}
     try:
         rules = rules_string.split(" ")  #String table with rules names
         files_to_scan = []
@@ -36,14 +63,11 @@ def event_detection(paths, rules_string):
         print(message)
 
 
-
-
 @main.command()
 @click.option('--path', help='Path to file', multiple=False, required=True)
 @click.option('--filter', default='tcp', help='Valid BPF filter')
 def display_captures(path, filter):
     """ Simple programm to display PCAPs """
-    
     if pcap_manager.validate_filter(filter):
         try:
             if os.path.isfile(path):
@@ -54,7 +78,7 @@ def display_captures(path, filter):
             template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             message = template.format(type(ex).__name__, ex.args)
             print(message)
-    else: click.echo("invalid filter")
+    #else: click.echo("invalid filter")
 
     
 
