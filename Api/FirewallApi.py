@@ -1,15 +1,12 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import click
 import datetime
-
 
 class Alert(BaseModel):
     source: str
     alert_id: int
     date: datetime.datetime
     message: str
-
 
 app = FastAPI()
 
