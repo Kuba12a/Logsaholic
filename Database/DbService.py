@@ -33,6 +33,3 @@ def select_alerts():
     return connection_cursor.fetchall()
 
 
-#insert_alert(AlertToInsert(source="x", date=datetime.datetime.now(), message="result[2]"))
-#xd = select_alerts()
-#print(xd)
