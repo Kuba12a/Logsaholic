@@ -1,0 +1,5 @@
+malicious_names = "Dictionaries/maliciousNames.txt"
+malicious_IPs = "Dictionaries/maliciousIPs.txt"
+malicious_URLs = "Dictionaries/maliciousURLs.txt"
+remote_alert = "remote"
+local_alert = "local"

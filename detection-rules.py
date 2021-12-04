@@ -3,12 +3,13 @@ import Evtx.Evtx as evtx
 import re
 from scapy.layers.inet import IP
 from scapy.layers.http import HTTPRequest
+import Config
 
 
 def detect_malware_name(file):    
     condition = False
     keys=[]
-    with open("Dictionaries/maliciousNames.txt", 'r') as f:
+    with open(Config.malicious_names, 'r') as f:
         for line in f: keys.append(line.strip()) 
 
     #procesowanie pcap
@@ -41,11 +42,11 @@ def detect_malware_name(file):
 
     
     if condition:
-        action_alert = "local" # akcja: "local", "remote"
+        action_alert = Config.local_alert # akcja: "local", "remote"
         action_block = False # or False
         description = "low risk, malware name detected" # format w OFF.8.5
     else:
-        action_alert = action_block = description = None
+        return None
     return action_alert, action_block, description
 
 
@@ -53,7 +54,7 @@ def detect_malware_ip(file):
     condition = False
     ip_pattern = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')   #Ip regex
     keys=[]
-    with open("Dictionaries/maliciousIPs.txt", 'r') as f:
+    with open(Config.malicious_IPs, 'r') as f:
         for line in f: keys.append(line.strip()) 
 
     #procesowanie pcap
@@ -91,18 +92,18 @@ def detect_malware_ip(file):
                     break
 
     if condition:
-        action_alert = "Remote" # akcja: "local", "remote"
+        action_alert = Config.remote_alert # akcja: "local", "remote"
         action_block = True # or False
         description = "high risk, malware ip address detected" # format w OFF.8.5
     else:
-        action_alert = action_block = description = None
+        return None
     return action_alert, action_block, description
         
 
 def detect_malware_url(file):
     condition = False
     keys=[]
-    with open("Dictionaries/maliciousURLs.txt", 'r') as f:
+    with open(Config.malicious_URLs, 'r') as f:
         for line in f: keys.append(line.strip()) 
 
     #procesowanie pcap
@@ -126,11 +127,9 @@ def detect_malware_url(file):
 
 
     if condition:
-        action_alert = "Remote" # akcja: "local", "remote"
+        action_alert = Config.remote_alert # akcja: "local", "remote"
         action_block = False # or False
         description = "medium risk, malicious url detected" # format w OFF.8.5
     else:
-        action_alert = action_block = description = None
+        return None
     return action_alert, action_block, description
-
-detect_malware_url("/")

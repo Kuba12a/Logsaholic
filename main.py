@@ -25,7 +25,7 @@ def event_detection(paths, host, firewall, rules_string):
         files_to_scan = []
         for path in paths:
             if os.path.isdir(path):
-                for file in file_manager.get_filenames(path,extensions):
+                for file in file_manager.get_filenames(path, extensions):
                     files_to_scan.append(file)
             elif os.path.isfile(path):
                 files_to_scan.append(path)
