@@ -2,7 +2,7 @@ import sqlite3
 from pydantic import BaseModel
 import datetime
 
-connection = sqlite3.connect("events.db")
+
 
 
 class AlertToInsert(BaseModel):
@@ -11,20 +11,22 @@ class AlertToInsert(BaseModel):
     message: str
 
 
-connection_cursor = connection.cursor()
 
 
 def insert_alert(alert: AlertToInsert):
-    connection2 = sqlite3.connect("events.db")
-    connection_cursor2 = connection.cursor()
-    with connection2:
-        try:
-            connection_cursor2.execute(
-                f"INSERT INTO events (source, date, message) VALUES ('{alert.source}', '{alert.date.strftime('%m/%d/%Y, %H:%M:%S')}', '{alert.message}')")
-        except:
-            print("Nie dodano do bazy bo prawdopodobnie baza danych nie istnieje na tym urządzeniu")
+    connection = sqlite3.connect("events.db")
+    connection_cursor = connection.cursor()
+    with connection:
+        connection_cursor.execute(
+            "CREATE TABLE IF NOT EXISTS events (event_id int PRIMARY KEY , source test, date text, message text)")
+        connection_cursor.execute(
+            f"INSERT INTO events (source, date, message) VALUES ('{alert.source}', '{alert.date.strftime('%m/%d/%Y, %H:%M:%S')}', '{alert.message}')")
+
+
 
 def select_alerts():
+    connection = sqlite3.connect("events.db")
+    connection_cursor = connection.cursor()
     with connection:
         connection_cursor.execute(
             "SELECT * from events")
