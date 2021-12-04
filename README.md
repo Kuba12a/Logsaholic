@@ -32,7 +32,9 @@ pip install "hypercorn[trio]"
 ```
 Run fastApi using hypercorn
 ```
-hypercorn Api:app --worker-class trio
+hypercorn Api/[AlertApi]:app --bind ip_address:port
+or
+hypercorn Api/[FirewallApi]:app --bind ip_address:port
 
 ```
 
