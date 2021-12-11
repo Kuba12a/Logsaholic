@@ -9,6 +9,7 @@ def get_filenames(path, extensions):
         print('Going trough folder {} ...', root)
 
         for file in files:
+            if not ('.' in file): continue
             if(file.split('.')[1] in extensions):
                 file_paths.append(os.path.join(root,file))
 
