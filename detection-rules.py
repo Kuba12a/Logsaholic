@@ -4,6 +4,8 @@ import re
 from scapy.layers.inet import IP
 from scapy.layers.http import HTTPRequest
 import Config
+import yara
+import FileManagers.FileManager as file_manager
 
 
 def detect_malware_name(file):    
@@ -133,3 +135,30 @@ def detect_malware_url(file):
     else:
         return None
     return action_alert, action_block, description
+
+
+def detect_yara(file):
+    condition = False
+    path=input("Specify path with set of rules:")
+    yar_rules = []
+    if os.path.isdir(path):
+        for r in file_manager.get_filenames(path,["yar"]):
+            yar_rules.append(r)
+    elif os.path.isfile(path):
+        if path.split('.')[1] == "yar": yar_rules.append(path)
+    matches=[]
+    for yar_rule in yar_rules:
+        rule = yara.compile(filepath=yar_rule)
+        matches = rule.match(file)
+        if len(matches) > 0: 
+            condition = True
+            break    
+
+    if condition:
+        action_alert = Config.remote_alert # akcja: "local", "remote"
+        action_block = True # or False
+        description = "high risk, yara detection rules matched" # format w OFF.8.5
+    else:
+        return None
+    return action_alert, action_block, description
+
