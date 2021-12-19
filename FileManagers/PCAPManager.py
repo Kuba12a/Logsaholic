@@ -1,7 +1,4 @@
 from scapy.all import *
-import scapy.arch as arch
-from scapy.layers.l2 import Ether
-from scapy.layers.inet import IP, TCP
 
 
 def process_pcap(file_name, filter):
@@ -19,6 +16,32 @@ def display_pkts(packages):
             break
         elif (i.isnumeric):
             packages[int(i)].show()
+
+
+def sum_payload(packets):
+    packet_size = 0
+    for pkt in packets:
+        packet_size += len(pkt)
+    return packet_size
+
+def get_inbound_packets(filename, ip_address):
+    return process_pcap(filename, f"src host {ip_address}")
+
+def get_outbound_packets(filename, ip_address):
+    return process_pcap(filename, f"dst host {ip_address}")
+
+
+def get_ips(packets):
+    ips = []
+    dic = {}
+    for pkt in packets:
+        temp = pkt.sprintf("%IP.src%")
+        dic[temp] = 1
+
+    for ip in dic.keys():
+        ips.append(ip)
+    return ips
+
 
 
 def validate_filter(filter):

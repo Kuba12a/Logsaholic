@@ -4,6 +4,7 @@ import FileManagers.PCAPManager as pcap_manager
 import FileManagers.FileManager as file_manager
 import FileManagers.EventDetectionManager as event_manager
 import FileManagers.TXTManager as txt_manager
+import AnomalyDetectionManager as anomaly_detection_manager
 
 #main groupf to serve multiple commands 
 @click.group()
@@ -55,6 +56,27 @@ def set_host_connection_string(paths, rules_string):
             elif os.path.isfile(path):
                 files_to_scan.append(path)
         event_manager.scan_files(files_to_scan, rules)
+        click.echo("\nFiles scanned")
+
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print(message)
+
+
+@main.command()
+@click.option('--paths', default=[], help='Path to folders or files', multiple=True)
+def detect_anomaly(paths):
+    """ Event generating detection programm """
+    extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}
+    try:
+        files_to_scan = []
+        for path in paths:
+            if os.path.isdir(path):
+                for file in file_manager.get_filenames(path,extensions):
+                    anomaly_detection_manager.detect_anomaly(file)
+            elif os.path.isfile(path):
+                anomaly_detection_manager.detect_anomaly(path)
         click.echo("\nFiles scanned")
 
     except Exception as ex:
