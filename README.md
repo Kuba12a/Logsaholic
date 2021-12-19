@@ -32,9 +32,9 @@ pip install "hypercorn[trio]"
 ```
 Run fastApi using hypercorn
 ```
-hypercorn Api/[AlertApi]:app --bind ip_address:port
+hypercorn Api/AlertApi:app --bind ip_address:port
 or
-hypercorn Api/[FirewallApi]:app --bind ip_address:port
+hypercorn Api/FirewallApi:app --bind ip_address:port
 
 ```
 
