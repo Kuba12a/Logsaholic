@@ -52,4 +52,10 @@ pip freeze > requirements.txt
 ### 6. Specify Dictionaries
 Specify dictionaries of 
 **malicious_names**, **malicious_IPs**, **malicious_URLs** in Config.py.   
-By default its specified to collect data from default dictionaries stored in Dictionaries folder.
+By default its specified to collect data from default dictionaries stored in Dictionaries folder.   
+
+### 7. Detect anomaly
+```
+python3 main.py detect-anomaly 
+--paths [path to file/folder] *can be multiple   
+```
