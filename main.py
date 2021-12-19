@@ -23,7 +23,7 @@ def event_detection(paths, host, firewall, rules_string):
     """ Event generating detection programm """
     extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}    
     try:
-        rules = rules_string.split(" ")  #String table with rules names
+        rules = rules_string.split(":")  #String table with rules names
         files_to_scan = []
         for path in paths:
             if os.path.isdir(path):
@@ -48,7 +48,7 @@ def set_host_connection_string(paths, rules_string):
     """ Event generating detection programm """
     extensions = {'pcapng', 'txt', 'xml', 'json', 'evtx'}
     try:
-        rules = rules_string.split(" ")  #String table with rules names
+        rules = rules_string.split(":")  #String table with rules names
         files_to_scan = []
         for path in paths:
             if os.path.isdir(path):
