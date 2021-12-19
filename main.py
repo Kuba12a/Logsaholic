@@ -2,11 +2,12 @@ import click
 import os
 import FileManagers.PCAPManager as pcap_manager
 import FileManagers.FileManager as file_manager
-import FileManagers.EventDetectionManager as event_manager
+import DetectionManagers.EventDetectionManager as event_manager
 import FileManagers.TXTManager as txt_manager
-import AnomalyDetectionManager as anomaly_detection_manager
+from DetectionManagers import AnomalyDetectionManager as anomaly_detection_manager
 
-#main groupf to serve multiple commands 
+
+#main groupf to serve multiple commands
 @click.group()
 def main():
     pass

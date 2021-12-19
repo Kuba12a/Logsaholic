@@ -1,4 +1,4 @@
-from . import FileManager as file_manager
+from FileManagers import FileManager as file_manager
 import datetime
 import HttpClient.HttpClient as http_client
 from pprint import pprint
